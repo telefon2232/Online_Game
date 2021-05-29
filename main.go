@@ -26,7 +26,13 @@ type player_coordinate struct {
 	x int
 	y int
 }
+
+var x_player float64 = 100
+var y_player float64 = 100
+
+
 var img *ebiten.Image
+
 func init() {
 	fmt.Println("Init has been started...")
 	var err error
@@ -37,12 +43,30 @@ func init() {
 	}
 }
 func (g *Game) Update() error {
+
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(screenWidth/3, screenHeight/2)
+	if ebiten.IsKeyPressed(ebiten.KeyW){
+
+		y_player--
+	}
+	if ebiten.IsKeyPressed(ebiten.KeyA){
+
+		x_player--
+	}
+	if ebiten.IsKeyPressed(ebiten.KeyS){
+
+		y_player++
+	}
+	if ebiten.IsKeyPressed(ebiten.KeyD){
+
+		x_player++
+	}
+
+	op.GeoM.Translate(x_player,y_player)
 	screen.DrawImage(img,op)
 
 	ebitenutil.DebugPrint(screen, fmt.Sprintf("FPS: %0.2f\n%s", ebiten.CurrentFPS(),time.Now().Format(time.RFC1123)))
