@@ -17,6 +17,7 @@ import (
 const (
 	screenWidth  = 640
 	screenHeight = 480
+	size_person = 64
 )
 
 type Game struct {
@@ -29,7 +30,7 @@ type player_coordinate struct {
 }
 
 var x_player float64 = 0
-var y_player float64 = screenHeight-64
+var y_player float64 = screenHeight-size_person
 
 
 var img *ebiten.Image
@@ -67,8 +68,14 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 		x_player++
 	}
-	if y_player<screenHeight/2{
-		y_player=screenHeight/2
+	if ebiten.IsKeyPressed(ebiten.KeySpace){
+		
+	}
+	if y_player<screenHeight/2 {
+		y_player = screenHeight / 2
+	}
+	if y_player > screenHeight - size_person{
+		y_player = screenHeight - size_person
 	}
 
 	op.GeoM.Translate(x_player,y_player)
