@@ -30,7 +30,7 @@ type player_coordinate struct {
 }
 
 var x_player float64 = 0
-var y_player float64 = screenHeight-size_person
+var y_player float64 = screenHeight
 
 
 var img *ebiten.Image
@@ -52,6 +52,8 @@ func (g *Game) Update() error {
 func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.NRGBA{0x0f, 0xf0, 0xa0, 0xff})
 	op := &ebiten.DrawImageOptions{}
+	trase := &ebiten.DrawImageOptions{}
+	trase.GeoM.Translate(screenHeight/2,screenWidth/2)
 	if ebiten.IsKeyPressed(ebiten.KeyW){
 
 		y_player--
@@ -69,7 +71,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		x_player++
 	}
 	if ebiten.IsKeyPressed(ebiten.KeySpace){
-		
+		screen.DrawImage(img, trase)
 	}
 	if y_player<screenHeight/2 {
 		y_player = screenHeight / 2
