@@ -8,6 +8,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"image"
+	"image/color"
 	_ "image/png"
 	"log"
 	"time"
@@ -27,8 +28,8 @@ type player_coordinate struct {
 	y int
 }
 
-var x_player float64 = 100
-var y_player float64 = 100
+var x_player float64 = 0
+var y_player float64 = screenHeight-64
 
 
 var img *ebiten.Image
@@ -36,7 +37,7 @@ var img *ebiten.Image
 func init() {
 	fmt.Println("Init has been started...")
 	var err error
-	img, _, err = ebitenutil.NewImageFromFile("gopher.png")
+	img, _, err = ebitenutil.NewImageFromFile("tile.png")
 	if err != nil {
 		fmt.Println("Image path not found")
 		log.Fatal(err)
@@ -48,6 +49,7 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
+	screen.Fill(color.NRGBA{0x0f, 0xf0, 0xa0, 0xff})
 	op := &ebiten.DrawImageOptions{}
 	if ebiten.IsKeyPressed(ebiten.KeyW){
 
@@ -65,11 +67,14 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 		x_player++
 	}
+	if y_player<screenHeight/2{
+		y_player=screenHeight/2
+	}
 
 	op.GeoM.Translate(x_player,y_player)
 	screen.DrawImage(img,op)
 
-	ebitenutil.DebugPrint(screen, fmt.Sprintf("FPS: %0.2f\n%s", ebiten.CurrentFPS(),time.Now().Format(time.RFC1123)))
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("FPS: %0.2f\n%s", ebiten.CurrentFPS(),time.Now().Format(time.StampMilli)))
 
 }
 
