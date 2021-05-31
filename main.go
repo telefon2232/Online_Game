@@ -11,6 +11,7 @@ import (
 	"image/color"
 	_ "image/png"
 	"log"
+	"net"
 	"time"
 )
 
@@ -20,17 +21,35 @@ const (
 	size_person = 64
 )
 
+var flag bool = true
+
 type Game struct {
 	noiseImage *image.RGBA
 }
 
-type player_coordinate struct {
-	x int
-	y int
+type client struct {
+	id uint
+	x float64
+	y float64
 }
 
 var x_player float64 = 0
 var y_player float64 = screenHeight
+
+
+
+func connect_to(data client) {
+	conn, err := net.Dial("udp", "127.0.0.1:1234")
+	if err != nil {
+		fmt.Printf("Some error %v", err)
+		return
+	}
+	//fmt.Println(data.id)
+	fmt.Fprint(conn,data)
+	//fmt.Fprintf(conn, data.id)
+
+	conn.Close()
+}
 
 
 var img *ebiten.Image
@@ -54,6 +73,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 	trase := &ebiten.DrawImageOptions{}
 	trase.GeoM.Translate(screenHeight/2,screenWidth/2)
+
 	if ebiten.IsKeyPressed(ebiten.KeyW){
 
 		y_player--
@@ -72,6 +92,10 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	}
 	if ebiten.IsKeyPressed(ebiten.KeySpace){
 		screen.DrawImage(img, trase)
+		d:=client{23,44,55}
+		connect_to(d)
+
+
 	}
 	if y_player<screenHeight/2 {
 		y_player = screenHeight / 2
@@ -79,6 +103,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	if y_player > screenHeight - size_person{
 		y_player = screenHeight - size_person
 	}
+
 
 	op.GeoM.Translate(x_player,y_player)
 	screen.DrawImage(img,op)
@@ -92,6 +117,8 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 }
 
 func main() {
+
+
 	ebiten.SetWindowSize(screenWidth*2, screenHeight*2)
 	ebiten.SetWindowTitle("Golang game v0.0.1")
 
