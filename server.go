@@ -14,7 +14,7 @@ func sendResponse(conn *net.UDPConn, addr *net.UDPAddr) {
 
 
 func main() {
-	p := make([]byte, 148)
+	p := make([]byte, 100)
 	addr := net.UDPAddr{
 		Port: 1234,
 		IP: net.ParseIP("127.0.0.1"),
@@ -26,10 +26,7 @@ func main() {
 	}
 	for {
 		_,remoteaddr,err := ser.ReadFromUDP(p)
-		for i:=0;i<4;i++{
-			fmt.Println(p[i])
-		}
-		fmt.Printf("Read a message from %v %s \n", remoteaddr, len(p))
+		fmt.Printf("Read a message from %v %s \n", remoteaddr, p[0])
 		if err !=  nil {
 			fmt.Printf("Some error  %v", err)
 			continue

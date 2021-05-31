@@ -21,16 +21,8 @@ const (
 	size_person = 64
 )
 
-var flag bool = true
-
 type Game struct {
 	noiseImage *image.RGBA
-}
-
-type client struct {
-	id uint
-	x float64
-	y float64
 }
 
 var x_player float64 = 0
@@ -38,7 +30,8 @@ var y_player float64 = screenHeight
 
 
 
-func connect_to(data client) {
+func connect_to(data[]float64) {
+	fmt.Println(data[0])
 	conn, err := net.Dial("udp", "127.0.0.1:1234")
 	if err != nil {
 		fmt.Printf("Some error %v", err)
@@ -72,29 +65,34 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.NRGBA{0x0f, 0xf0, 0xa0, 0xff})
 	op := &ebiten.DrawImageOptions{}
 	trase := &ebiten.DrawImageOptions{}
+	flag :=false
+
 	trase.GeoM.Translate(screenHeight/2,screenWidth/2)
 
 	if ebiten.IsKeyPressed(ebiten.KeyW){
-
+	flag = true
 		y_player--
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyA){
-
+		flag = true
 		x_player--
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyS){
-
+		flag = true
 		y_player++
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyD){
-
+		flag = true
 		x_player++
 	}
 	if ebiten.IsKeyPressed(ebiten.KeySpace){
 		screen.DrawImage(img, trase)
-		d:=client{23,44,55}
+		d := []float64{4234324232, 3223223, 56446343}
 		connect_to(d)
+	}
 
+	if flag{
+		connect_to(d)
 
 	}
 	if y_player<screenHeight/2 {
