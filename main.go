@@ -46,11 +46,13 @@ func connect_to(data[]float64) {
 
 
 var img *ebiten.Image
+var bullet *ebiten.Image
 
 func init() {
 	fmt.Println("Init has been started...")
 	var err error
 	img, _, err = ebitenutil.NewImageFromFile("tile.png")
+	bullet, _, err = ebitenutil.NewImageFromFile("bullet.png")
 	if err != nil {
 		fmt.Println("Image path not found")
 		log.Fatal(err)
