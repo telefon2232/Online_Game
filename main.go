@@ -53,11 +53,13 @@ func connect_to(data client) {
 
 
 var img *ebiten.Image
+var bullet *ebiten.Image
 
 func init() {
 	fmt.Println("Init has been started...")
 	var err error
 	img, _, err = ebitenutil.NewImageFromFile("tile.png")
+	bullet, _, err = ebitenutil.NewImageFromFile("bullet.png")
 	if err != nil {
 		fmt.Println("Image path not found")
 		log.Fatal(err)
@@ -91,9 +93,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		x_player++
 	}
 	if ebiten.IsKeyPressed(ebiten.KeySpace){
-		screen.DrawImage(img, trase)
-		d:=client{23,44,55}
-		connect_to(d)
+		screen.DrawImage(bullet, trase)
+		//d:=client{23,44,55}
+		//connect_to(d)
 
 
 	}
