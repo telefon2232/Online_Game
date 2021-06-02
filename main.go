@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"image"
 	"image/color"
 	_ "image/png"
@@ -62,13 +63,11 @@ func (g *Game) Update() error {
 
 	return nil
 }
-
 func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.NRGBA{0x0f, 0xf0, 0xa0, 0xff})
 	op := &ebiten.DrawImageOptions{}
 	trase := &ebiten.DrawImageOptions{}
 	flag :=false
-
 	trase.GeoM.Translate(screenHeight/2,screenWidth/2)
 
 	if ebiten.IsKeyPressed(ebiten.KeyW){
@@ -87,14 +86,14 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		flag = true
 		x_player++
 	}
-	if ebiten.IsKeyPressed(ebiten.KeySpace){
+	if inpututil.IsKeyJustPressed(ebiten.KeySpace){
 		screen.DrawImage(img, trase)
 		d := []float64{4234324232, 3223223, 56446343}
 		connect_to(d)
 	}
 
 	if flag{
-		connect_to(d)
+		//connect_to(d)
 
 	}
 	if y_player<screenHeight/2 {
